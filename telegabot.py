@@ -27,7 +27,7 @@ def handle_text(message):
 
 def handle_text(message):
     bot.send_message(message.from_user.id,
-                     'Вы используете бот для поиска рецептов\n''Ниже представленны команды, которые существуют в боте:\n''/start - начало работы с ботом\n''/help - основные команды бота\n''/first_dishes - список доступных супов\n''/salads - список доступных салатов\n''/main_dishes - список доступных основніх блюд,\n''/desserts - список доступных дессертов,\n''/statistic - посмотреть статистику оценок')
+                     'Вы используете бот для поиска рецептов\n''Ниже представленны команды, которые существуют в боте:\n''/start - начало работы с ботом\n''/help - основные команды бота\n''/first_dishes - список доступных супов\n''/salads - список доступных салатов\n''/main_dishes - список доступных основніх блюд,\n''/desserts - список доступных дессертов,\n''/statistic - посмотреть статистику оценок,\n''/add_comment - добавить комментарий,\n''/see_comments - посмотреть комментарии других пользователей')
 
 
 @bot.message_handler(commands=['first_dishes'])
@@ -58,8 +58,34 @@ def handle_text(message):
 @bot.message_handler(commands=['statistic'])
 def handle_text(message):
 
-    check_function.graph()
-    bot.send_message(message.from_user.id,'Cатистика оценок')
+    result = check_function.statistic_of_marks()
+    print(type(result))
+    bot.send_message(message.from_user.id,'Количество ценок "1" - '+ str(result[0])+'.')
+    bot.send_message(message.from_user.id, 'Количество ценок "2" - ' + str(result[1]) + '.')
+    bot.send_message(message.from_user.id, 'Количество ценок "3" - ' + str(result[2]) + '.')
+    bot.send_message(message.from_user.id, 'Количество ценок "4" - ' + str(result[3]) + '.')
+    bot.send_message(message.from_user.id, 'Количество ценок "5" - ' + str(result[4]) + '.')
+
+    average = check_function.avarage_of_mark()
+    bot.send_message(message.from_user.id, 'Средняя оценка - ' + str(average) + '.')
+
+@bot.message_handler(commands=['add_comment'])
+def handle_text(message):
+    sent = bot.send_message(message.chat.id, 'Введите свой комментарий')
+    bot.register_next_step_handler(sent, comments)
+
+@bot.message_handler(commands=['see_comments'])
+def handle_text(message):
+    bot.send_message(message.chat.id, 'Комментарии других пользователей: ')
+    result = check_function.see_users_comments()
+    print(result)
+    for i in range(len(result)):
+        bot.send_message(message.chat.id, str((list(result[i]))[0]) + ': ' + str((list(result[i]))[1]))
+
+def comments(message):
+        check_function.add_comments(message.text, str(message.from_user.username))
+        print(message.text)
+        bot.send_message(message.chat.id,'Спасибо, ваш комментарий был успешно добавлен!')
 
 @bot.message_handler(content_types=['text'])
 def handle_text(message):
@@ -274,8 +300,6 @@ def continue_working_with_bot(message):
         sent = bot.send_message(call.message.chat.id, 'Введите свой комментарий')
         bot.register_next_step_handler(sent,comments)
 
-
-
     @bot.callback_query_handler(func=lambda call: call.data == 'see_comments')
     def callback_worker(call):
         bot.send_message(call.message.chat.id, 'Отзывы другх пользователей')
@@ -287,9 +311,9 @@ def continue_working_with_bot(message):
     @bot.callback_query_handler(func=lambda call: call.data == 'see_rating')
     def callback_worker(call):
         bot.send_message(call.message.chat.id, 'Статистика оценок')
-        result = check_function.graph()
-        print(result)
-        bot.send_message(message.chat.id,result)
+        result = check_function.statistic_of_marks()
+        print(result[0])
+        bot.send_message(message.chat.id,result[0])
 
     def comments(message):
         check_function.add_comments(message.text, str(message.from_user.username))

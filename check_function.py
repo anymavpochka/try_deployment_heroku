@@ -3,8 +3,10 @@ from db_classes import Categories, Dishes, Clients, Marks,Base
 from sqlalchemy.sql import select, update, join
 from sqlalchemy import and_, or_, between, asc, desc,update
 from sqlalchemy.orm import sessionmaker
+from sqlalchemy.sql import func
 import plotly.express as px
 import plotly.graph_objects as go
+
 
 
 # Base.metadata.create_all(engine)
@@ -133,31 +135,29 @@ def see_all_desserts():
     return (session.query(Dishes.dish_name).filter(Dishes.id_category == 4).all())
 
 # график распределения оценок пользователей
-def graph():
-    result = session.query(Marks.mark_value).all()
-    print(result[0][0])
-    count_of_five = []
-    count_of_four = []
-    count_of_three = []
-    count_of_two = []
-    count_of_one = []
-    for i in range(len(result)):
-        if result[i][0] == 5:
-            count_of_five.append(result[i][0])
-        elif result[i][0] == 4:
-            count_of_four.append(result[i][0])
-        elif result[i][0] == 3:
-            count_of_three.append(result[i][0])
-        elif result[i][0] == 2:
-            count_of_two.append(result[i][0])
-        elif result[i][0] == 1:
-            count_of_one.append(result[i][0])
+def statistic_of_marks():
+    result = []
+    for i in range(5):
+        result.append(session.query(Marks).filter(Marks.mark_value== i).count())
 
-    labels = ['mark 5', 'mark 4', 'mark 3','mark 2','mark 1']
-    values = [len(count_of_five),len(count_of_four),len(count_of_three),len(count_of_two),len(count_of_one)]
+    return result
+def avarage_of_mark():
 
-    fig = go.Figure(data=[go.Pie(labels=labels, values=values)])
-    fig.show()
+    result = session.query(func.avg(Marks.mark_value).label('average')).all()
+    #
+    # sum_of_marks = session.query(Marks.mark_value).all()
+    return round((result[0][0]),1)
+    # num_of_marks = len(sum_of_marks)
+    # result = sum(sum_of_marks)/num_of_marks
+    # print(result)
+
+
+
+
+
+
+
+
 
 
 
