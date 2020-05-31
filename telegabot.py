@@ -312,13 +312,20 @@ def continue_working_with_bot(message):
     def callback_worker(call):
         bot.send_message(call.message.chat.id, 'Статистика оценок')
         result = check_function.statistic_of_marks()
-        print(result[0])
-        bot.send_message(message.chat.id,result[0])
+        print(type(result))
+        bot.send_message(message.from_user.id, 'Количество ценок "1" - ' + str(result[0]) + '.')
+        bot.send_message(message.from_user.id, 'Количество ценок "2" - ' + str(result[1]) + '.')
+        bot.send_message(message.from_user.id, 'Количество ценок "3" - ' + str(result[2]) + '.')
+        bot.send_message(message.from_user.id, 'Количество ценок "4" - ' + str(result[3]) + '.')
+        bot.send_message(message.from_user.id, 'Количество ценок "5" - ' + str(result[4]) + '.')
 
-    def comments(message):
-        check_function.add_comments(message.text, str(message.from_user.username))
-        print(message.text)
-        bot.send_message(message.chat.id,'Спасибо, ваш комментарий был успешно добавлен!')
+        average = check_function.avarage_of_mark()
+        bot.send_message(message.from_user.id, 'Средняя оценка - ' + str(average) + '.')
+
+# def comments(message):
+#         check_function.add_comments(message.text, str(message.from_user.username))
+#         print(message.text)
+#         bot.send_message(message.chat.id,'Спасибо, ваш комментарий был успешно добавлен!')
 
 if __name__ == '__main__':
      bot.polling()

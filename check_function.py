@@ -137,7 +137,7 @@ def see_all_desserts():
 # график распределения оценок пользователей
 def statistic_of_marks():
     result = []
-    for i in range(5):
+    for i in range(1,6):
         result.append(session.query(Marks).filter(Marks.mark_value== i).count())
 
     return result
