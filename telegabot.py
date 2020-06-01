@@ -137,19 +137,19 @@ def callback_worker(call):
 @bot.callback_query_handler(func=lambda call: call.data == 'main_dishes')
 def callback_worker(call):
     keyboard = types.InlineKeyboardMarkup()
-    key_text = types.InlineKeyboardButton(text='Посмотреть рецепт в текстовой формe', callback_data='text')
+    key_text = types.InlineKeyboardButton(text='Посмотреть рецепт в текстовой формe', callback_data='text_for_main_dish')
     keyboard.add(key_text)
-    key_video = types.InlineKeyboardButton(text='Посмотреть видео рецепт', callback_data='video')
+    key_video = types.InlineKeyboardButton(text='Посмотреть видео рецепт', callback_data='video_for_main_dish')
     keyboard.add(key_video)
     bot.send_message(call.message.chat.id, "Выберите один из возможных вариатнтов", reply_markup=keyboard)
 
 
-    @bot.callback_query_handler(func=lambda call: call.data == 'text')
+    @bot.callback_query_handler(func=lambda call: call.data == 'text_for_main_dish')
     def callback_worker(call):
         sent = bot.send_message(call.message.chat.id, 'Введите название основного блюда🥘')
         bot.register_next_step_handler(sent,text_recipe)
 
-    @bot.callback_query_handler(func=lambda call: call.data == 'video')
+    @bot.callback_query_handler(func=lambda call: call.data == 'video_for_main_dish')
     def callback_worker(call):
         sent = bot.send_message(call.message.chat.id, 'Введите название основного блюда🥘')
         bot.register_next_step_handler(sent, video_recipe)
@@ -158,19 +158,19 @@ def callback_worker(call):
 @bot.callback_query_handler(func=lambda call: call.data == 'salads')
 def callback_worker(call):
     keyboard = types.InlineKeyboardMarkup()
-    key_text = types.InlineKeyboardButton(text='Посмотреть рецепт в текстовой формe', callback_data='text')
+    key_text = types.InlineKeyboardButton(text='Посмотреть рецепт в текстовой формe', callback_data='text_for_salads')
     keyboard.add(key_text)
-    key_video = types.InlineKeyboardButton(text='Посмотреть видео рецепт', callback_data='video')
+    key_video = types.InlineKeyboardButton(text='Посмотреть видео рецепт', callback_data='video_for_salads')
     keyboard.add(key_video)
     bot.send_message(call.message.chat.id, "Выберите один из возможных вариатнтов", reply_markup=keyboard)
 
 
-    @bot.callback_query_handler(func=lambda call: call.data == 'text')
+    @bot.callback_query_handler(func=lambda call: call.data == 'text_for_salads')
     def callback_worker(call):
         sent = bot.send_message(call.message.chat.id, 'Введите название  салата🥗')
         bot.register_next_step_handler(sent, text_recipe)
 
-    @bot.callback_query_handler(func=lambda call: call.data == 'video')
+    @bot.callback_query_handler(func=lambda call: call.data == 'video_for_salads')
     def callback_worker(call):
         sent = bot.send_message(call.message.chat.id, 'Введите название салата🥗')
         bot.register_next_step_handler(sent, video_recipe)
@@ -178,19 +178,19 @@ def callback_worker(call):
 @bot.callback_query_handler(func=lambda call: call.data == 'sweets')
 def callback_worker(call):
     keyboard = types.InlineKeyboardMarkup()
-    key_text = types.InlineKeyboardButton(text='Посмотреть рецепт в текстовой формe', callback_data='text')
+    key_text = types.InlineKeyboardButton(text='Посмотреть рецепт в текстовой формe', callback_data='text_for_sweets')
     keyboard.add(key_text)
-    key_video = types.InlineKeyboardButton(text='Посмотреть видео рецепт', callback_data='video')
+    key_video = types.InlineKeyboardButton(text='Посмотреть видео рецепт', callback_data='video_for_sweets')
     keyboard.add(key_video)
     bot.send_message(call.message.chat.id, "Выберите один из возможных вариатнтов", reply_markup=keyboard)
 
 
-    @bot.callback_query_handler(func=lambda call: call.data == 'text')
+    @bot.callback_query_handler(func=lambda call: call.data == 'text_for_sweets')
     def callback_worker(call):
         sent = bot.send_message(call.message.chat.id, 'Введите название дессерта 🍰')
         bot.register_next_step_handler(sent,text_recipe)
 
-    @bot.callback_query_handler(func=lambda call: call.data == 'video')
+    @bot.callback_query_handler(func=lambda call: call.data == 'video_for_sweets')
     def callback_worker(call):
         sent = bot.send_message(call.message.chat.id, 'Введите название дессерта 🍰')
         bot.register_next_step_handler(sent, video_recipe)

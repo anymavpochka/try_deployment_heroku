@@ -64,7 +64,7 @@ def check_is_dish_exist(dish_name):
 def if_not_exist_dish():
 
     result = session.query(Dishes.dish_name).all()
-    return 'Такого блюда не существует в нашей базе данных, посмотрите блюда, которые доступны',result
+    return 'Такого блюда не существует в нашей базе данных, посмотрите блюда, которые доступны и начните поиск сначала',result
 
 def result_of_search(dish_name):
 
